@@ -80,6 +80,36 @@ class MomentController{
       data: result
     }
   }
+
+  // 标签接口，给moment添加label
+  async addLabels(ctx, next) {
+    // 1.获取参数
+    const { labels } = ctx
+    const { momentId } = ctx.params
+
+    // 2.将moment_id和label_id添加到moment_label表中
+    try{
+      for(const label of labels) {
+        // 2.1判断label_id是否已经和moment_id已经存在该数据
+        const isExists = await momentService.hasLabel(momentId, label.id)
+        console.log(isExists);
+        if(!isExists) {
+          // 2.2不存在moment_id和label_id关系，则插入
+          const result = await momentService.addLabel(momentId, label.id)
+        }
+      }
+      ctx.body = {
+        code: 0,
+        message: '为动态添加标签成功',
+      }
+    }catch (error) {
+      console.log(error);
+      ctx.body = {
+        code: -3001,
+        message: '为动态添加标签失败'
+      }
+    }
+  }
 }
 
 module.exports = new MomentController()

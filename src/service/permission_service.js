@@ -1,6 +1,5 @@
 const connection = require("../app/database")
 
-// 方法一
 class PermissionService {
   // 方法一
   async checkMoment(momentId, userId) {

@@ -7,7 +7,6 @@ const md5password = require('../utils/md5')
 
 const verifyLogin = async (ctx, next) => {
   const { username, password } = ctx.request.body
-
   // 1.验证用户名和密码是否为空
   if(!username || !password) {
     return ctx.app.emit('error', NAME_OR_PASSWORD_IS_EMPTY, ctx)
@@ -16,6 +15,7 @@ const verifyLogin = async (ctx, next) => {
   // 2.验证用户名在数据可中是否已存在
   const users = await userService.findUserByName(username)
   const user = users[0]
+  
   if(!user) {
     return ctx.app.emit('error', USER_IS_NOT_EXISTS, ctx)
   }
